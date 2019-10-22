@@ -1,0 +1,47 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+
+int factorial (int n);
+double sum(int n);
+double factorialsum(int n);
+
+int main()
+{
+    int n;
+    cout << "Enter a positive integer: " << endl;
+    cin >> n;
+    cout << "Factorial of " << n << " is " << factorial(n);
+    cout << " " << endl;
+    cout << "The sum of the first series 1/1 through 1/" << n << " is " << sum(n);
+    cout << " " << endl;
+    cout << "The sum of the second series 1/1 though 1/" << (factorial(n)) << " is " << factorialsum(n);
+    
+    return 0;
+  
+}
+//To find the factorial of n
+int factorial (int n)
+{
+    if(n>1)
+        return (n*factorial(n-1));
+    else
+        return 1;
+}
+// To find the sum of the series 1/1 to 1/n
+double sum (int n)
+{
+    double sum1 = 0.0;
+    for(double i=1.0; i <=n; i++)
+        sum1 = sum1 + (1.0/i);
+    return sum1;
+}
+// To find the sum of the series 1/1 to 1/n!
+double factorialsum(int n)
+{
+    double sum2 = 0.0;
+    for(double i = 1.0; i <= n; i++)
+        sum2 = sum2 + (1.0/factorial(i));
+    return sum2;
+}
