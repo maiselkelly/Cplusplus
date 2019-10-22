@@ -1,0 +1,43 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+int Same(int a, int b);
+int Same(int a, int b, int c);
+
+int main()
+{
+    int x = 10;
+    int y = 20;
+    int remainder = 0;
+
+    
+    Same(x, y);
+    cout << remainder;
+    cout << "Divisible" << endl;
+    
+    return 0;
+}
+
+//Function  Division
+int Same(int a, int b)
+{
+    int remainder;
+    remainder = a % b;
+    if(remainder == 0)
+        return 0;
+    else
+        return remainder;
+}
+
+Function Average
+int Same(int a, int b, int c)
+{
+    int average;
+    average = (a + b + c) / 3;
+    double average1;
+    average1 = static_cast<int>(average);
+    
+    return average1;
+    
+}
