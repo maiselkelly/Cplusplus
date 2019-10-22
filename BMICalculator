@@ -1,0 +1,66 @@
+//Calculates the BMI based off of a person's height and weight for 2 weeks
+
+#include <iostream>
+#include <iomanip>
+
+using namespace std;
+
+//Class BMI calculator
+class BMI
+{
+public:
+    double weight;
+    double height;
+    void setWeight(double); //function
+    void setHeight(double); //function
+    double getBMI();        // function 
+   
+    
+};
+
+
+//Function - Set Weight
+void BMI::setWeight(double w)
+{
+    weight = w;
+}
+
+//Function - Set Height
+void BMI::setHeight(double h)
+{
+    height = h;
+}
+
+//Function - Get BMI
+double BMI::getBMI()
+{return ((703*weight)/(height * height));}
+
+//main
+int main ()
+{
+    BMI week1, week2;
+    double height1, weight1, height2, weight2;
+    
+    cout << "This program will calculate your BMI:" << endl;
+    cout << "Week 1:" << endl;
+    cout << "What is your current height(in) and weight(lbs): " << endl;
+    cin >> height1 >> weight1;
+    
+    week1.setHeight(height1); // Week 1
+    week1.setWeight(weight1); //Week 1
+    
+    cout << "BMI: " << week1.getBMI() << endl;
+
+    
+    cout << "Week 2:" << endl;
+    cout << "What is your current height(in) and weight(lbs): " << endl;
+    cin >> height2 >> weight2;
+    
+    week2.setHeight(height2);
+    week2.setWeight(weight2);
+    
+    cout << "BMI: " << week2.getBMI() << endl;
+    
+    return 0;
+    
+}
