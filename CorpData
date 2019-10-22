@@ -1,0 +1,96 @@
+/*
+Corporate Sales Data
+Write a program that uses a structure named CorpData to store the following
+information on a company division:
+	Division name (such as East, West, North, or South)
+	First quarter sales
+	Second quarter sales
+	Third quarter sales
+	Fourth quarter sales
+	Total annual sales
+	Average quarterly sales */
+  
+  #include <iostream>
+#include <iomanip>
+#include<string>
+using namespace std;
+
+//Structure for each quarter + total sales + average
+struct CorpData
+{
+    string DivisionName;
+    double firstQuar;
+    double secondQuar;
+    double thirdQuar;
+    double fourthQuar;
+    double totalSales;
+    double averageQuarSales;
+    CorpData(){}; // Default constructor
+
+    
+    //Constructor with parameters set
+   CorpData(string D, double f, double s, double t, double fo)
+    {
+    DivisionName = D;
+    firstQuar = f;
+    secondQuar = s;
+    thirdQuar = t;
+    fourthQuar = fo;
+    }
+};
+
+//Prototype
+void calcSales(CorpData &);
+void displaySales(CorpData &);
+
+
+//Function for Sales
+void calcSales(CorpData &D)
+{
+    
+    D.totalSales = D.firstQuar + D.secondQuar + D.thirdQuar + D.fourthQuar;
+    D.averageQuarSales = D.totalSales / 4.0;
+}
+
+
+//Function for Showing Sales
+void displaySales(CorpData &D)
+{
+    cout<<"Division: " << D.DivisionName << endl;
+    cout <<"Total Sales: $" << D.totalSales << endl;
+    cout << "Quarter Average: $" << D.averageQuarSales << endl;
+}
+
+
+//Main for four different corporate divisions
+int main()
+{
+ 
+//North
+CorpData north("North", 100, 200, 300, 400);
+cout << endl;
+
+//South
+CorpData south("South", 300, 500, 300, 200);
+cout << endl;
+
+//East
+CorpData east("East", 200, 400, 100, 600);
+cout << endl;
+
+//West
+CorpData west("West", 400, 400, 400, 400);
+cout << endl;
+    
+    calcSales(north);
+    calcSales(south);
+    calcSales(east);
+    calcSales(west);
+    
+    displaySales(north);
+    displaySales(south);
+    displaySales(east);
+    displaySales(west);
+ 
+    return 0;
+}
