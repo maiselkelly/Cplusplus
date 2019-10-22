@@ -1,0 +1,29 @@
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+void Swap(int &x, int &y);
+
+//main
+int main()
+{
+    int num1 = 5;
+    int num2 = 7;
+    
+    cout <<"The two numbers are " << num1 << " and " << num2 << endl;
+    Swap(num1, num2);
+    cout << "The two numbers are " << num1 << " and " << num2 << endl;
+    
+    return 0;
+}
+//Function
+void Swap(int &x, int &y)
+{
+    int temp;
+    temp = x;
+    x = y;
+    y = temp;
+    
+    cout << "The two numbers are " << x << " and " << y << endl;
+    
+}
