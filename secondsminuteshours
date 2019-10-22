@@ -1,0 +1,28 @@
+//Converts seconds into hours, minutes and seconds
+
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+
+int main()
+{
+    int seconds;
+    int minutes;
+    int hours;
+
+    //Seconds to minutes
+cout << "How many total seconds?" << endl;
+cin >> seconds;
+    minutes = seconds / 60;
+    
+  //Minutes to hours
+    hours = minutes / 60;
+    
+//total in hours, minutes, seconds
+    cout << "The time is " << hours << " hours " << minutes % 60 << " minutes and " << seconds % 60 << " seconds." << endl;
+    
+    return 0;
+    
+}
