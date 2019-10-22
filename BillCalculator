@@ -1,0 +1,78 @@
+//Bill and Tip calculator
+
+#include <iostream>
+#include <iomanip>
+using namespace std;
+
+class Tip
+{
+private:
+    double tip;
+    
+public:
+    double bill;
+    double newTip;
+    double getTip(double);
+    void setBill(double);
+    void setTip(double);
+    double getTotal();
+    Tip()
+    {
+        tip = .15;
+    }
+};
+
+
+
+void Tip::setTip(double)   //Set Tip Value
+{
+    tip = .15;
+}
+void Tip::setBill(double b) //set bill
+{
+    bill = b;
+}
+
+double Tip::getTip(double rate)
+{
+    tip = rate;
+    return tip;
+}
+
+double Tip::getTotal()
+{
+    return (bill*tip)+bill;
+}
+
+
+int main()
+{
+    Tip restaurant1, restaurant2;
+    double bill1, bill2;
+    double tip2;
+    
+    cout << "What is the total cost of your bill?: $" << endl;
+    cin >> bill1;
+    
+    restaurant1.setBill(bill1);
+  
+    cout << "Your bill before the tip is $" << bill1 <<endl;
+    cout << "Total cost after the tip is: $" << restaurant1.getTotal() << endl;
+    
+    
+    cout << " " << endl;
+    cout << " " << endl;
+    
+    cout << "What is the total cost of your bill?: $" << endl;
+    cin >> bill2;
+    
+    cout <<"What would you like to tip? $" << endl;
+    cin >> tip2;
+    
+    restaurant2.setBill(bill2);
+    restaurant2.getTip(tip2);
+    
+    cout << "Your bill before the tip is $" << bill2 <<endl;
+    cout <<"The tip you selected was " << tip2 << "%" << endl;
+    cout << "Total cost after the tip is: $" << restaurant1.getTotal() << endl;
+}
