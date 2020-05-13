@@ -1,0 +1,179 @@
+//  Kelly Maisel
+//  February 7th, 2020
+// Last edited: 2/6/20
+/* This program takes a string expression as an infix and converts the expession to a post fix expression. After converting to a postfix expression, the second function evaluates the postfix expression with the given variable definitions */
+
+#include<iostream>
+#include<stack>
+#include<string.h>
+#include<ctype.h>
+#include<stdio.h>
+#include<stdlib.h>
+#include<math.h>
+
+using namespace std;
+
+string convertToPost(string infix);
+int order(char b);
+double EvaluatePostFix(string postfix);
+bool isNumber(char b);
+
+int main()
+{
+    string input = "(f+b)-(d-e)*(f+(g-h)/(i-j))+(a+b)^c";
+    string post = convertToPost(input);
+    cout << "Postfix expression is: " << post << endl;
+    cout << "Postfix evaluation: " << EvaluatePostFix(convertToPost(input)) << endl;
+}
+
+int order(char b)
+{
+    int placeholder = 0;
+    if (b == '^') {
+        placeholder = 3;
+    } else if ( b == '*' || b == '/') {
+        placeholder = 2;
+    } else if (b == '+' || b == '-') {
+        placeholder = 1;
+    }
+    return placeholder;
+}
+
+string convertToPost(string infix)
+{
+    stack <char> SymbolStack;
+    string outputstring = "";
+    
+    for (int i = 0; i < infix.length(); i++)
+    {
+        //if an operand
+        if(isNumber(infix[i]))
+        {
+            outputstring += infix[i];
+            
+        }
+        //if operator
+        else if (infix[i] == '^' || infix[i] == '*' || infix[i] == '/' || infix[i] == '+' || infix[i] == '-')
+        {
+            while (!SymbolStack.empty() && order(SymbolStack.top()) >= (order(infix[i])))
+            {
+                outputstring += SymbolStack.top();
+                SymbolStack.pop();
+            }
+            SymbolStack.push(infix[i]);
+        }
+        
+        //if opening parentheses
+        if (infix[i] == '(')
+        {
+            SymbolStack.push(infix[i]);
+        }
+        
+        
+        // if closing parentheses
+        else if (infix[i] == ')')
+        {
+            while (!SymbolStack.empty() && SymbolStack.top() != '(')
+            {
+                outputstring += SymbolStack.top();
+                SymbolStack.pop();
+                
+            }
+            
+            SymbolStack.pop();
+            
+        }
+    }
+    
+    //pop all the operators
+    while(!SymbolStack.empty())
+    {
+        outputstring += SymbolStack.top();
+        SymbolStack.pop();
+    }
+    return outputstring;
+}
+
+
+bool isNumber(char b)
+{
+    if(b>= 'a' && b <= 'z')
+        return true;
+    if(b>= 'A' && b <= 'Z')
+        return true;
+    return false;
+}
+
+
+double EvaluatePostFix(string postfix) {
+    stack < double > myStack;
+    double value = 0.0, X, Y;
+    
+    for (int i = 0; i < postfix.length(); i++) {
+        
+        if (postfix[i] == '^' || postfix[i] == '*' || postfix[i] == '/' || postfix[i] == '+' || postfix[i] == '-') {
+            X = myStack.top();
+            myStack.pop();
+            Y = myStack.top();
+            myStack.pop();
+            
+            switch (postfix[i]) {
+                case '^':
+                    value = pow(Y, X);
+                    myStack.push(value);
+                    break;
+                case '*':
+                    value = Y * X;
+                    myStack.push(value);
+                    break;
+                case '/':
+                    value = Y / X;
+                    myStack.push(value);
+                    break;
+                case '+':
+                    value = Y + X;
+                    myStack.push(value);
+                    break;
+                case '-':
+                    value = Y - X;
+                    myStack.push(value);
+                    break;
+            }
+        } else if (postfix[i] == 'a' || postfix[i] == 'b' || postfix[i] == 'c' || postfix[i] == 'd' || postfix[i] == 'e' || postfix[i] == 'f' || postfix[i] == 'g' || postfix[i] == 'h' || postfix[i] == 'i' || postfix[i] == 'j')
+            
+            switch (postfix[i]) {
+                case 'a':
+                    myStack.push(1);
+                    break;
+                case 'b':
+                    myStack.push(2);
+                    break;
+                case 'c':
+                    myStack.push(3);
+                    break;
+                case 'd':
+                    myStack.push(10);
+                    break;
+                case 'e':
+                    myStack.push(5);
+                    break;
+                case 'f':
+                    myStack.push(15);
+                    break;
+                case 'g':
+                    myStack.push(6);
+                    break;
+                case 'h':
+                    myStack.push(4);
+                    break;
+                case 'i':
+                    myStack.push(8);
+                    break;
+                case 'j':
+                    myStack.push(7);
+                    break;
+            }
+    }
+    return myStack.top();
+}
+
