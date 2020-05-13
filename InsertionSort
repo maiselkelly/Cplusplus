@@ -1,0 +1,77 @@
+//  Kelly Maisel
+//  April 9th 2020
+// Last edited: 4/9/2020
+/* TThis program will implement the insortion sort. An output will be created that will contain data sorted in ascending order, containing one number on each line. I will use vectos as my storage data and this lab will not include usage of the STL library.  */
+
+#include <iostream>
+#include <vector>
+#include <fstream>
+using namespace std;
+
+void insertionSort(vector<int> &);
+void fillVector(vector<int> &);
+void printVector(vector<int> &);
+
+
+//Fill the elements from the file.
+void fillVector(vector<int> &element)
+{
+    ifstream inputfile;
+    int num;
+    inputfile.open("InsertionSort.data");
+   
+    if(!inputfile)
+        cout << "File open failed" << endl;
+    else
+        while(inputfile >> num)
+        {
+            element.push_back(num);
+        }
+    inputfile.close();
+}
+
+//Sort the elements in ascending order
+void insertionSort(vector<int> &a)
+{
+    int next;
+    int temp;
+    
+    for(int i = 1; i < a.size(); i++)
+    {
+        temp =a[i];
+        next = i -1;
+    
+    
+    while(next >= 0 && a[next] > temp)
+        {
+        a[next +1] = a[next];
+        next = next -1;
+        }
+    
+    a[next +1] = temp;
+    }
+   
+}
+
+//Prints the vector to a new file
+void printVector(vector<int> &element)
+{
+    ofstream outputdata;
+    outputdata.open("OutputInsertionSort.txt");
+    for(int i = 0; i < element.size(); i++)
+    {
+        outputdata << element[i] << endl;
+    }
+    
+    outputdata.close();
+    
+}
+
+
+int main()
+{
+    vector<int> myvector;
+    fillVector(myvector);
+    insertionSort(myvector);
+    printVector(myvector);
+}
