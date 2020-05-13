@@ -1,0 +1,199 @@
+//  Kelly Maisel
+//  February 11th, 2020
+// Last edited: 2/11/2020
+/* This program retrieves a set of data using a queue for a circular array. Using a switch case each of the following functions will be called throughout the process: enqueue, dequeue, display, front, isempty, isfull, countQ and to exit the program when all elements have been loaded. */
+
+#include<iostream>
+#include<fstream>
+#include<queue>
+
+#define SIZE 10
+using namespace std;
+
+class arrayQ
+{
+public:
+    //These are the member functions you will call in the switch case
+   void enQueue(int);
+   int deQueue();
+   void DisplayQueue();
+   void Front();
+   bool isFull();
+   bool isEmpty();
+   int CountQ();
+private:
+    int front = -1; //Starting location
+    int rear = -1; //Starting location
+    int myQueue[SIZE];
+};
+
+
+// This function will put elements into the queue
+void arrayQ::enQueue(int number)
+{
+    if(isFull())
+        cout << "The queue is full" << endl;
+    
+      //first element
+    else
+    {
+     if(front == -1)
+         front =0;
+        
+        //element at the rear
+        rear = ((rear+1)%SIZE);
+        myQueue[rear] = number;
+    }
+}
+    
+    //This function will delete elements from the queue
+int arrayQ::deQueue()
+{
+    int number = 0;
+    if(isEmpty())
+        cout << "Queue is empty" << endl;
+    
+     //If only one element in the queue and in the front
+        else if(front == rear)
+                front = rear = -1;
+    //if anywhere else, we must find it
+    else
+        front = (front +1)%SIZE;
+    return number;
+        }
+    
+    
+    //This function will display the elements in the queue
+    void arrayQ::DisplayQueue()
+    {
+        if(isEmpty())
+        {
+            cout << "Queue is empty" << endl;
+        }
+        else
+            if (front <= rear)
+            {
+            //if the front is less that the rear
+            for(int i = front; i <= rear; i++)
+              
+                cout << "The elements in the queue are " <<  myQueue[i] << endl;
+            }
+        else
+        {
+           int i = front;
+            while(i < SIZE)
+            {
+                cout << "The elements in the queue are ";
+                cout << myQueue[i] << endl;;
+                i++;
+            }
+            while(i <= rear)
+            {
+                cout << "The elements in the queue are ";
+                cout << myQueue[i] << " ";
+                i++;
+            }
+        }
+    }
+        
+        
+    
+    //This function will display the first element of the array
+    void arrayQ::Front()
+    {
+       if(isEmpty())
+           cout << "Queue is empty" << endl;
+        else
+        cout << "The front element is "<< myQueue[front] << endl;
+    }
+    
+    
+    //This function will check if the queue is full
+    bool arrayQ::isFull()
+    {
+        if((front == 0 && rear == (SIZE - 1)) || (front == rear + 1))
+            return true;
+        
+        else
+            return false;
+    }
+    
+    
+    //This function will check if the queue is empty
+    bool arrayQ::isEmpty()
+    {
+        if(front == - 1  && rear == - 1)
+            return true;
+        else return false;
+    }
+    
+    
+   // This function will give the count of the queue
+    int arrayQ::CountQ()
+    {
+        if (!isEmpty())
+            return
+                (sizeof(myQueue)/ sizeof(myQueue[SIZE]));
+        
+            else
+                return 0;
+        
+    }
+
+
+
+int main()
+{
+    arrayQ dataQ;
+
+    char character1;
+    int number1;
+    
+    ifstream inputfile;
+    inputfile.open("CircularArrayQueue.data");
+    
+    if(!inputfile)
+        cout << "File open Failed." << endl;
+    while(inputfile >> character1 >> number1)
+    {
+    switch(character1)
+    {
+        case 'e':
+            cout << "Number entered is: " << number1 << endl;
+            dataQ.enQueue(number1);
+               
+            break;
+        case 'd':
+            cout << "Number deleted is: " << number1 << endl;
+            dataQ.deQueue();
+            break;
+        case 'p':
+            dataQ.DisplayQueue();
+            break;
+        case 'f':
+            dataQ.Front();
+            break;
+        case 't':
+            if(dataQ.isEmpty())
+                cout << "Queue is empty." << endl;
+            else
+                cout << "Queue isn't empty." << endl;
+            break;
+        case 'l':
+            if(dataQ.isFull())
+                cout << "Queue is full." << endl;
+            else
+                cout << "Queue is not full." << endl;
+            break;
+        case 'c':
+            cout << "The number of the elements in the queue is: " << dataQ.CountQ() << endl;
+            break;
+        case  'x':
+            cout << "Exit" << endl;
+            break;
+    }
+    
+    }
+}
+
+
