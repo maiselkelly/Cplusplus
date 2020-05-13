@@ -1,0 +1,62 @@
+//  Kelly Maisel
+//  January 9th, 2020
+// Last edited: 1/9/20
+/* This program retreives a set of data from two columns, and adds the data in each of the rows and stores it as a new file called output addition, then multiplies the data in each of the rows and stores it as another new file called output multiplication */
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <iomanip>
+using namespace std;
+
+int main()
+{
+    double x = 0.0;
+    double y = 0.0;
+    vector<double> storex, storey, storeadd, storemult;
+    //input the data into the system
+    ifstream inputfile;
+    inputfile.open ("Datafile1.data");
+    
+    //response if the file does not open
+    if (!inputfile)
+        cout << "File open Failed" << endl;
+    else
+        //read the numbers in the file for both columns
+        while (inputfile >> x >>y)
+        {
+            //allow all decimals to appear
+            cout << setprecision(9);
+            cout << x << "     " << y << endl;
+            //add values to x column
+            storex.push_back(x);
+            //add values to y column
+            storey.push_back(y);
+        }
+    //Pushback to add the x+y vector colum and x*y vector column 
+    for(int i = 0; i < storex.size(); i++)
+    {
+        //storing the added values of x and y to new file
+        storeadd.push_back(storex[i] + storey[i]);
+        //storing the multiplied values of x and y to the new file
+        storemult.push_back(storex[i] * storey[i]);
+    }
+    //Saving new add data to a new file
+    ofstream outputadd;
+    outputadd.open("Output-Addition.data");
+    for (int i = 0; i < storex.size(); i++)
+    {
+        outputadd << storeadd[i] << endl;
+    }
+    outputadd.close();
+    
+    //Saving new mult data to a new file
+    ofstream outputmult;
+    outputmult.open("Output-Multiplication.data");
+    for (int i = 0; i < storex.size(); i++)
+    {
+        outputmult << storemult[i] << endl;
+    }
+    outputmult.close();
+}
+    
