@@ -1,0 +1,157 @@
+//  Kelly Maisel
+//  March 30th, 2020
+// Last edited: 3/30/2020
+/* This program will insert elements into a heap and show the state of the array after each insertion. It will display the first and alst index of the heap after each insert. It will show the formed vector by printing all of the inserts of the completed heap. Then, it will delete the elements one at a time. It will display each deletion by printing the remaining vector. While the deletions are happening it will display the first and last index. The final vector will be shown as a sorted stack. */
+
+
+#include <iostream>
+#include <vector>
+
+using namespace std;
+
+class Heap
+{
+private:
+    vector<int> heap;
+    int parent (int i);
+    int Left (int i);
+    int Right (int i);
+public:
+    bool isEmpty();
+    int getSize();
+    void insert(int element);
+    void HeapDown (int i);
+    void HeapUp (int i);
+    void removeMin();
+    void printHeap();
+    void lastIndex();
+   
+};
+
+//Returns parents of heap[i]
+int Heap::parent(int i)
+{
+    return (i-1)/2;
+}
+
+//Returns left child of heap[i]
+int Heap::Left(int i)
+{
+    return (2*i + 1);
+}
+
+//Returns right child of heap[i]
+int Heap::Right(int i)
+{
+    return (2 * i + 2);
+}
+
+
+//Checks if heap is empty or not
+bool Heap::isEmpty()
+{
+    return heap.size() == 0;
+}
+
+
+//Returns the size of the heap
+int Heap::getSize()
+{
+    return heap.size();
+}
+
+
+//Checks if the new node is smaller than its parent
+void Heap::HeapUp (int i)
+{
+    if(heap[i] < heap[parent(i)])
+    {
+        swap(heap[i], heap[parent(i)]);
+        HeapUp(parent(i));
+    }
+}
+
+
+//Checks to see if the parents is bigger than either of its two children
+void Heap::HeapDown(int i)
+{
+    int left = Left(i);
+    int right = Right(i);
+    int smallest = i;
+    
+    //find the smallest value
+    if(heap[left] < heap[i])
+        smallest = left;
+    if(heap[right] < heap[smallest])
+        smallest = right;
+    
+    //swap the smallest value
+    if (smallest != i)
+    {
+        swap(heap[i], heap[smallest]);
+        HeapDown(smallest);
+    }
+        
+}
+
+//inserts an element into the heap
+void Heap::insert(int element)
+{
+    //insert element to the end of the vector
+    heap.push_back(element);
+    
+    //get the index of the element and see if it needs to be swapped.
+    int index = getSize() - 1;
+    HeapUp(index);
+}
+
+
+//deletes the root node then does a swap
+void Heap::removeMin()
+{
+    //replace the root with the last element
+    heap[0] = heap.back();
+   // heap.pop_back();
+    
+    //Heap Down the new root node
+    HeapDown(0);
+}
+
+
+void Heap::printHeap()
+{
+    for(int i = 0; i < heap.size(); i++)
+        cout << heap[i] << endl;
+}
+
+void Heap::lastIndex()
+{
+    cout << "The index for the first element is 0" << endl;
+    cout << "The index for the last element is " << heap.size() - 1 << endl;
+}
+
+
+int main()
+{
+    Heap myheap;
+    
+    
+    myheap.insert(3);
+    myheap.printHeap();
+    myheap.lastIndex();
+    cout << endl;
+    myheap.insert(12);
+    myheap.printHeap();
+    myheap.lastIndex();
+    cout << endl;
+
+    
+    cout << "Delete: " << endl;
+    myheap.removeMin();
+    myheap.printHeap();
+    myheap.lastIndex();
+    cout << endl;
+    
+  
+    
+}
