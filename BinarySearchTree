@@ -1,0 +1,234 @@
+//  Kelly Maisel
+//  February 22nd, 2020
+// Last edited: 2/11/2020
+/* This program will create a binary search tree which will have the following features: Printing the tree, finding the smallest element, finding the largest element, finding the height of the tree, finding the height of the left sub-tree, finding the height of the right sub-tree, checking if an element is in the search tree, finding how many nodes are in the nth level of the tree, printing the smallest and largest values in the tree and destroying the tree.  */
+
+#include<iostream>
+#include<fstream>
+using namespace std;
+
+struct BinaryNode
+{
+    double element;
+    BinaryNode *left;
+    BinaryNode *right;
+};
+struct BinaryNode *t;
+
+class BST
+{
+
+public:
+    bool treeIsEmpty(const double x, BinaryNode *t);
+    void treeInsert(const double &x, BinaryNode *&t);
+    bool treeContains(const double x, BinaryNode *t);
+    int treeHeight(BinaryNode *t);
+    int treeHeightL(BinaryNode *t);
+    int treeHeightR(BinaryNode *t);
+    int treeCountNodes(BinaryNode *t);
+    void treePrint(BinaryNode *t);
+    BinaryNode *treeFindMin(BinaryNode *t) const;
+    BinaryNode *treeFindMax(BinaryNode *t) const;
+    BinaryNode *destroyTree(BinaryNode *t);
+    BST();
+    ~BST();
+};
+
+
+
+
+bool BST::treeIsEmpty(const double x, BinaryNode *t) //check for an empty tree
+{
+ if(t == nullptr)
+     return true;
+  else
+      return false;
+}
+
+void BST::treeInsert(const double &x, BinaryNode * &t) //inset an element into tree
+{
+    if(t == nullptr)
+        t = new BinaryNode{x, nullptr, nullptr};
+    else if(x < t-> element)
+        treeInsert(x, t-> left);
+    else if(t->element < x)
+        treeInsert(x, t -> right);
+    else;
+}
+
+bool BST::treeContains(const double x, BinaryNode *t) //check if an element is in the tree
+{
+    if(t == nullptr)
+        return false;
+    else if(x < t-> element)
+        return treeContains(x, t->left);
+   else if(x > t-> element)
+       return treeContains(x, t-> right);
+    else
+        return true;
+}
+
+int BST::treeHeight(BinaryNode *t) //print the height of the tree
+{
+ if(t == nullptr)
+     return -1;
+    int rightHeight = treeHeight(t->right);
+    int leftHeight = treeHeight(t-> left);
+
+    if(leftHeight > rightHeight)
+        return (leftHeight + 1);
+    else
+        return (rightHeight +1);
+
+   
+}
+
+int BST::treeHeightL(BinaryNode *t) //print height of the left sub-tree
+{
+    if(t == nullptr)
+        return -1;
+        else
+     return treeHeight(t->left) + 1;
+}
+
+int BST::treeHeightR(BinaryNode *t) //print height of the right sub-tree
+{
+    if(t == nullptr)
+        return 0;
+    else
+    return treeHeight(t->right) +1;
+}
+
+int BST::treeCountNodes(BinaryNode *t) //count the nodes in the tree
+{
+    if(t == nullptr)
+        return 0;
+  else
+      if(t->left == nullptr && t->right == nullptr)
+          return 1;
+    else
+        return treeCountNodes(t->left)+ treeCountNodes(t->right) + 1;
+}
+
+void BST::treePrint(BinaryNode *t) //prints the entire tree
+{
+    if(t == nullptr)
+        return;
+    else
+    {
+    cout << t->element << " ";
+    treePrint(t->left);
+    treePrint(t->right);
+    }
+    
+}
+
+BinaryNode *BST::treeFindMin(BinaryNode *t) const //finds the smallest element
+{
+    if (t == nullptr)
+        return nullptr;
+    else if(t-> left == nullptr)
+        return t;
+    return treeFindMin(t-> left);
+}
+
+BinaryNode *BST::treeFindMax(BinaryNode *t) const//finds the largest element
+{
+    if (t == nullptr)
+        return nullptr;
+    else if(t-> right == nullptr)
+        return t;
+    else
+        return treeFindMax(t->right);
+}
+
+//How many nodes are in level n of the tree
+
+
+
+BinaryNode *BST::destroyTree(BinaryNode *t)//destroy the tree
+{
+    if(t == nullptr)
+        return nullptr;
+    else
+    {
+        destroyTree(t->left);
+        destroyTree(t->right);
+        delete t;
+    }
+    return nullptr;
+}
+
+//Constructor
+BST::BST()
+{
+    t = nullptr;
+}
+
+//Deconstructor
+BST::~BST()
+{
+    destroyTree(t);
+}
+
+
+int main()
+{
+    BST mySearchTree;
+  BinaryNode *t = nullptr;
+    double number;
+    double value;
+    
+    
+    ifstream inputfile;
+    inputfile.open("BinarySearchTree.data");
+
+    if(!inputfile)
+        cout << "File open failed." << endl;
+
+    while(inputfile >> number)
+    {
+        //Insert elements into the tree
+        mySearchTree.treeInsert(number, t);
+    }
+    
+        //Total number of nodes
+        cout << "The total number of nodes is: " << mySearchTree.treeCountNodes(t) << endl;
+        
+        //Printing the entire tree
+        cout << "The entire tree is: ";
+        mySearchTree.treePrint(t);
+        cout << endl;
+
+        //Ptrinting the smallest element in the tree
+        cout << "The smallest element is: " << mySearchTree.treeFindMin(t)->element << endl;
+
+        //Printing the largest element in the tree
+        cout << "The largest element is: " << mySearchTree.treeFindMax(t)->element<< endl;
+
+        //Printing the height of the tree
+        cout << "The height of the tree is: " << mySearchTree.treeHeight(t) <<endl;
+        
+        //Printing the height of the left sub-tree
+        cout << "The height of the left sub-tree is: " << mySearchTree.treeHeightL(t) << endl;
+
+        //Printing the height of the right sub-tree
+        cout <<"The height of the right sub-tree is: " << mySearchTree.treeHeightR(t) <<endl;
+
+        //Check an element is in the BST
+        cout << "Enter a value to search:" << endl;
+        cin >> value;
+        cout << "Looking for element " << value << " in the tree." << endl;
+        if(mySearchTree.treeContains(value, t))
+            cout << "The element is in the tree" << endl;
+        else
+            cout << "The element is not in the tree" << endl;
+    
+        //Destroying the tree
+        cout << "Now destroying the BST" << endl;
+        mySearchTree.destroyTree(t);
+        
+        
+    }
+
+
