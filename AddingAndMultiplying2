@@ -1,0 +1,129 @@
+//  Kelly Maisel
+//  January 16th, 2020
+// Last edited: 1/16/20
+/* This program retreives a set of data from two columns, and adds the data in each of the rows and stores it as a new file called output addition, then multiplies the data in each of the rows and stores it as another new file called output multiplication. This information being pulled will come from a class and called int the main.*/
+#include <iostream>
+#include <fstream>
+#include <string>
+#include <vector>
+#include <iomanip>
+using namespace std;
+
+
+//Gloval declaration for setting column size
+double SetC = 15;
+
+
+//Class
+class myData
+{
+    public:
+    //set data to the file (push_back)
+        void set(double num)
+        {
+            data.push_back(num);
+        }
+    //retrieve the data (at)
+        double get(int num) const
+        {
+            return data.at(num);
+        }
+    //find the size of the file
+        double size() const
+        {
+            return data.size();
+        }
+    
+    private:
+        vector<double> data;
+};
+
+
+//function definitions
+//Loading the data from the file to the set function
+void LoadData (myData& col1, myData& col2)
+{
+    double num1, num2;
+    ifstream inputfile;
+    inputfile.open ("Datafile1.data");
+    
+    //response if the file does not open
+    if (!inputfile)
+        cout << "File open Failed" << endl;
+    else
+        //read the numbers in the file for both columns
+        while (inputfile >> num1 >> num2)
+        {
+            //allow all decimals to appear
+            cout << setprecision(9);
+            cout << num1 << "     " << num2 << endl;
+            //add values to x column by calling the set function
+            col1.set(num1);
+            //add values to y column by calling the set function
+            col2.set(num2);
+        }
+    
+}
+
+//This function will add column1 to column2
+void Addition (myData& col1, myData& col2, myData& add)
+{
+    for(int i = 0; i < col1.size(); i++)
+    {
+        add.set(col1.get(i) + col2.get(i));
+    }
+}
+
+//This function will multiply column1 to column2
+void Multiplication (myData& col1, myData& col2, myData& mult)
+{
+    for(int i = 0; i < col2.size(); i++)
+    {
+        mult.set(col1.get(i)*col2.get(i));
+    }
+}
+
+//This function will print the output to the file
+void Output (myData& col1, myData& col2, myData& add, myData& mult)
+{
+    
+    ofstream outputdata;
+    outputdata.open("Output.txt");
+    for (int i = 0; i < col1.size(); i++)
+    {
+        outputdata<< setprecision(12)<<left << setw(SetC) << col1.get(i) << left << setw(SetC) << col2.get(i) <<
+        left << setw(SetC) << add.get(i) << left << setw(SetC) << mult.get(i) << endl;
+    }
+    outputdata.close();
+    
+}
+
+
+//main
+int main()
+{
+    //Objects of the class
+    myData col1, col2, add, mult;
+    ifstream inputfile;
+    //temp variables to set the first and second column 
+    double tempcol1, tempcol2;
+    
+    LoadData(col1, col2);
+
+    while(inputfile >> tempcol1 >> tempcol2)
+    {
+        col1.set(tempcol1);
+        col2.set(tempcol2);
+    }
+    
+    Addition(col1, col2, add);
+    
+    Multiplication(col1, col2, mult);
+    
+    Output(col1, col2, add, mult);
+    
+}
+
+
+
+
